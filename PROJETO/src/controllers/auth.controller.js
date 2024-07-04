@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { loginService } from '../services/auth.service.js'
+import { loginService, geraToken } from '../services/auth.service.js'
 import User from '../models/User.js';
 import { response } from 'express';
 
@@ -18,7 +18,8 @@ const login = async (req, res) => {
             return res.status(404).send({ message: "Senha ou usuário incorretos!" });
         }
 
-        res.send("login ok");
+        const token = geraToken(user.id);
+        res.send({token});
     } catch (err) {
         res.status(500).send(err.message);
     }
