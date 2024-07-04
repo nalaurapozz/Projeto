@@ -1,9 +1,9 @@
 import { Router } from 'express';
 const router = Router();
-import { create, findtAll } from "../controllers/livros.controller.js"
+import { create, findAll } from "../controllers/livros.controller.js"
 
 router.post("/", create)
-router.get("/", findtAll)
+router.get("/", findAll)
 
 
 export default router;

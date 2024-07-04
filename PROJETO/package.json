@@ -1,11 +1,11 @@
 {
   "name": "projeto",
   "version": "1.0.0",
-  "description": "API for SPA Breaking News",
-  "main": "index.js",
+  "description": "API Livros",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node index",
+    "start": "node src/index.js",
     "dev": "nodemon index"
   },
   "keywords": [],
