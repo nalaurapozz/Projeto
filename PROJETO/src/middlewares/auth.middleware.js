@@ -23,7 +23,7 @@ export const authMiddleware = (req, res, next) => {
             return res.send(401);
         }
 
-        if (schema !== 'Beare TOKEN') {
+        if (schema !== 'Bearer TOKEN') {
             res.status(401);
         }
 

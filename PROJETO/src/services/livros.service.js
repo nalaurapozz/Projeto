@@ -8,14 +8,20 @@ const countLivros = () => Livros.countDocuments();
 
 const findByIdService = (id) => Livros.findById(id).populate("user");
 
-
 const searchByTitleService = (name) => Livros.find({ name: { $regex: `${name || ""}`, $options: "i" }, }).sort({ _id: -1 }).populate("user");
-
 
 const byUserService = (id) => Livros.find({ user: id }).sort({ _id: -1 }).populate("user");
 
+const updateService = (id, name, descricao) => Livros.findOneAndUpdate({ _id: id }, { name, descricao }, { rawResult: true });
 
-const updateService = (id, name, descricao) => Livros.findOneAndUpdate({ _id: id }, { name, descricao }, {rawResult: true});
+const deletaService = (id) => Livros.findByIdAndDelete({ _id: id });
+
+const likeService = (idLivros, userId) => Livros.findOneAndUpdate({ _id: idLivros, "likes.userId": { $nin: [userId] } }, { $push: { likes: { userId, created: new Date() } } });
+
+const deleteLikeService = (idLivros, userId) => Livros.findOneAndUpdate({ _id: idLivros}, { $pull: { likes: { userId} } });
+
+
+
 
 
 
@@ -31,6 +37,9 @@ export {
     findByIdService,
     searchByTitleService,
     byUserService,
-    updateService
+    updateService,
+    deletaService,
+    likeService,
+    deleteLikeService
 
 };
