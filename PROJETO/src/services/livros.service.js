@@ -6,10 +6,15 @@ const findAllService = (offset, limit) => Livros.find().sort({ _id: -1 }).skip(o
 
 const countLivros = () => Livros.countDocuments();
 
+const findByIdService = (id) => Livros.findById(id).populate("user");
+
+
+
 
 
 export {
     createService,
     findAllService,
     countLivros,
+    findByIdService
 };
