@@ -19,7 +19,7 @@ const updateService = (
         { nome, login, senha, tipo }
     );
 
-export default  {
+export default {
     createService,
     findAllService,
     findByIdService,

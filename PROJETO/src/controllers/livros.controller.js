@@ -3,7 +3,9 @@ import { ObjectId } from 'mongoose';
 
 const create = async (req, res) => {
     try {
+
         const { name, descricao } = req.body;
+        
 
         if (!name || !descricao) {
             res.status(400).send({ message: "Preencha todos os campos!"});
@@ -12,7 +14,7 @@ const create = async (req, res) => {
         await createService({
             name,
             descricao,
-            user: {_id: "6686061d298d7417fdc4eb5f"},
+            user: req.userId,
         });
 
         res.send(201);
