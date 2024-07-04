@@ -9,12 +9,20 @@ const countLivros = () => Livros.countDocuments();
 const findByIdService = (id) => Livros.findById(id).populate("user");
 
 
+const searchByTitleService = (name) => Livros.find({
+    name: { $regex: `${name || ""}`, $options: "i" },
+}).sort({ _id: -1 }).populate("user");
 
+
+const byUserService = (id) => Livros.find({user: id}).sort({ _id: -1 }).populate("user");
 
 
 export {
     createService,
     findAllService,
     countLivros,
-    findByIdService
+    findByIdService,
+    searchByTitleService,
+    byUserService
+
 };

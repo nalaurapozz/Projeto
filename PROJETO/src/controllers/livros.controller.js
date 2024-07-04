@@ -1,4 +1,4 @@
-import { createService, findAllService, countLivros, findByIdService } from '../services/livros.service.js';
+import { createService, findAllService, countLivros, findByIdService, searchByTitleService, byUserService } from '../services/livros.service.js';
 import { ObjectId } from 'mongoose';
 
 const create = async (req, res) => {
@@ -105,6 +105,57 @@ const findById = async (req, res) => {
     }
 };
 
+const searchByTitle = async (req, res) => {
+    try {
+        const { name } = req.query;
+
+        const livros = await searchByTitleService(name);
+
+        if (livros.length === 0) {
+            return res.status(400).send({ message: "Não nem um livro com este nome!" });
+        }
 
 
-export { create, findAll, findById };
+        return res.send({
+            results: livros.map((item) => ({
+                id: item._id,
+                name: item.name,
+                descricao: item.descricao,
+                login: item.login,
+                likes: item.likes,
+                comments: item.comments,
+                userName: item.user.nome
+            }))
+        })
+
+
+
+    } catch (err) {
+        res.status(500).send({ message: err.message });
+    }
+}
+
+const byUser = async (req, res) => {
+
+        try {
+            const id = req.userId;
+            const livros = await byUserService(id);
+            return res.send({
+                results: livros.map((item) => ({
+                    id: item._id,
+                    name: item.name,
+                    descricao: item.descricao,
+                    login: item.login,
+                    likes: item.likes,
+                    comments: item.comments,
+                    userName: item.user.nome
+                }))
+            })
+
+        } catch (err) {
+            res.status(500).send({ message: err.message });
+        }
+}
+
+
+export { create, findAll, findById, searchByTitle, byUser };
