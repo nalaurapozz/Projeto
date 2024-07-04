@@ -9,12 +9,19 @@ const countLivros = () => Livros.countDocuments();
 const findByIdService = (id) => Livros.findById(id).populate("user");
 
 
-const searchByTitleService = (name) => Livros.find({
-    name: { $regex: `${name || ""}`, $options: "i" },
-}).sort({ _id: -1 }).populate("user");
+const searchByTitleService = (name) => Livros.find({ name: { $regex: `${name || ""}`, $options: "i" }, }).sort({ _id: -1 }).populate("user");
 
 
-const byUserService = (id) => Livros.find({user: id}).sort({ _id: -1 }).populate("user");
+const byUserService = (id) => Livros.find({ user: id }).sort({ _id: -1 }).populate("user");
+
+
+const updateService = (id, name, descricao) => Livros.findOneAndUpdate({ _id: id }, { name, descricao }, {rawResult: true});
+
+
+
+
+
+
 
 
 export {
@@ -23,6 +30,7 @@ export {
     countLivros,
     findByIdService,
     searchByTitleService,
-    byUserService
+    byUserService,
+    updateService
 
 };

@@ -1,4 +1,4 @@
-import { createService, findAllService, countLivros, findByIdService, searchByTitleService, byUserService } from '../services/livros.service.js';
+import { createService, findAllService, countLivros, findByIdService, searchByTitleService, byUserService, updateService } from '../services/livros.service.js';
 import { ObjectId } from 'mongoose';
 
 const create = async (req, res) => {
@@ -157,5 +157,29 @@ const byUser = async (req, res) => {
         }
 }
 
+const update = async (req, res) => { 
 
-export { create, findAll, findById, searchByTitle, byUser };
+        try {
+            const { name, descricao } = req.body;
+            const { id } = req.params;
+
+            if (!name || !descricao) {
+                res.status(400).send({ message: "Preencha todos os campos!" });
+            }
+
+            const livros = await findByIdService(id);
+
+            if (livros.user._id != req.userId) {
+                return res.status(400).send({ message: "Você não pode atualizar esse livro!" });
+            }
+            await updateService(id, name, descricao);
+
+            return res.send({message: "Livro atualizado com sucesso!"})
+        } catch (err) {
+            res.status(500).send({ message: err.message });
+        }
+}
+
+
+
+export { create, findAll, findById, searchByTitle, byUser, update };
